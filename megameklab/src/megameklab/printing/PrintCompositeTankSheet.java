@@ -18,6 +18,7 @@
 package megameklab.printing;
 
 import megamek.common.EntityMovementMode;
+import megamek.common.SupportTank;
 import megamek.common.Tank;
 import megamek.common.VTOL;
 import megamek.common.annotations.Nullable;
@@ -113,6 +114,8 @@ public class PrintCompositeTankSheet extends PrintRecordSheet {
             sheet = new PrintTank(tank2, getFirstPage(), subOptions);
         } else if (tank1 instanceof VTOL) {
             sheet = new VTOLTables(options);
+        } else if (tank1.isSuperHeavy()) {
+            sheet = new SuperheavyTankTables(options);
         } else {
             sheet = new TankTables(options);
         }
@@ -187,6 +190,19 @@ public class PrintCompositeTankSheet extends PrintRecordSheet {
         public List<String> getBookmarkNames() {
             return Collections.emptyList();
         }
+    }
+
+    private static class SuperheavyTankTables extends PrintRecordSheet {
+        SuperheavyTankTables(RecordSheetOptions options) { super(0, options); }
+
+        @Override
+        protected String getSVGFileName(int pageNumber) { return "tables_tank_superheavy.svg"; }
+
+        @Override
+        protected String getRecordSheetTitle() { return ""; }
+
+        @Override
+        public List<String> getBookmarkNames() { return Collections.emptyList(); }
     }
 
     @Override

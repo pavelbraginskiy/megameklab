@@ -1,6 +1,18 @@
 MEGAMEKLAB VERSION HISTORY:
 ----------------
-0.49.20-SNAPSHOT
+0.50.0-SNAPSHOT (THIS MARKS THE START OF JAVA 17 AS THE MINIMUM REQUIRED)
++ PR #1544: Windows Related CI Fixes
++ PR #1547 - Added Sentry
++ PR #1542: Fix incorrect tooltip for SV officer minimum
++ PR #1553: Add record sheet display to preview tab
++ PR #1556: Allow right-click-to-copy for RS preview
++ PR #1560: Added row shading for procedurally generated reference tables
++ PR #1562: Replaced vehicle fluff art with cluster table when condensed reference tables enabled
++ PR #1568: Don't open Record Sheet right click menu on left click
++ PR #1574: Record sheet fixes and improvements
++ Fix #1581: Add toggle for RS adjusted BV printing, and set default export filename
+
+0.49.20 (2024-06-28 2100 UTC) (THIS IS THE LAST VERSION TO SUPPORT JAVA 11)
 + PR #1486: Code internals: DialogOptionsListener update
 + Fix #1494: Heavy gauss rifles can no longer be mounted in mek turrets
 + Fix #1490: Upon saving a unit that was loaded from file, MML will now always ask for a new filename when that unit's name is changed
@@ -14,6 +26,8 @@ MEGAMEKLAB VERSION HISTORY:
 + PR #1520: Removed printing of pilot Edge abilities
 + PR #1521: Fixed to-hit modifier for pilot damage on aerospace record sheets.
 + PR #1529: Don't print Edge abilities of troopers
++ PR #1529: Don't print Edge abilities of troopers
++ FIX #1533: Filter out space bomb artillery (only Arrow IV Bombs for now)
 
 
 0.49.19.1 (2024-05-14 1800 UTC)

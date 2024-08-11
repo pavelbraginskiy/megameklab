@@ -76,23 +76,14 @@ public class UnitPrintManager {
             return;
         }
 
-        // Dummy player and game allow bonus BV from C3 and TAG to be calculated
-        Game g = new Game();
-        Player p = new Player(1, "Nobody");
-        for (Entity e : loadedUnits) {
-            e.setOwner(p);
-            g.addEntity(e);
-            C3Util.wireC3(g, e);
-        }
-
-        new PrintQueueDialog(parent, printToPdf, loadedUnits, true).setVisible(true);
+        new PrintQueueDialog(parent, printToPdf, loadedUnits, true, f.getSelectedFile().getName()).setVisible(true);
     }
 
     public static File getExportFile(Frame parent) {
         return getExportFile(parent, "");
     }
 
-    private static File getExportFile(Frame parent, String suggestedFileName) {
+    public static File getExportFile(Frame parent, String suggestedFileName) {
         JFileChooser f = new JFileChooser(System.getProperty("user.dir"));
         f.setLocation(parent.getLocation().x + 150, parent.getLocation().y + 100);
         f.setDialogTitle("Choose export file name");
@@ -113,7 +104,7 @@ public class UnitPrintManager {
         return f.getSelectedFile();
     }
 
-    private static List<PrintRecordSheet> createSheets(List<? extends BTObject> entities, boolean singlePrint,
+    public static List<PrintRecordSheet> createSheets(List<? extends BTObject> entities, boolean singlePrint,
                                                        RecordSheetOptions options) {
         List<PrintRecordSheet> sheets = new ArrayList<>();
         List<Infantry> infList = new ArrayList<>();
@@ -155,7 +146,7 @@ public class UnitPrintManager {
                     }
                 } else if (unit instanceof BattleArmor) {
                     baList.add((BattleArmor) unit);
-                    if (singlePrint || baList.size() > 4) {
+                    if (singlePrint || PrintSmallUnitSheet.fillsSheet(baList, options)) {
                         PrintRecordSheet prs = new PrintSmallUnitSheet(baList, pageCount, options);
                         pageCount += prs.getPageCount();
                         sheets.add(prs);
@@ -163,7 +154,7 @@ public class UnitPrintManager {
                     }
                 } else if (unit instanceof Infantry) {
                     infList.add((Infantry) unit);
-                    if (singlePrint || infList.size() > (options.showReferenceCharts() ? 2 : 3)) {
+                    if (singlePrint || PrintSmallUnitSheet.fillsSheet(infList, options)) {
                         PrintRecordSheet prs = new PrintSmallUnitSheet(infList, pageCount, options);
                         pageCount += prs.getPageCount();
                         sheets.add(prs);
@@ -171,7 +162,7 @@ public class UnitPrintManager {
                     }
                 } else if (unit instanceof Protomech) {
                     protoList.add((Protomech) unit);
-                    if (singlePrint || protoList.size() > 4) {
+                    if (singlePrint || PrintSmallUnitSheet.fillsSheet(protoList, options)) {
                         PrintRecordSheet prs = new PrintSmallUnitSheet(protoList, pageCount, options);
                         pageCount += prs.getPageCount();
                         sheets.add(prs);

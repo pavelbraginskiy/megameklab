@@ -304,14 +304,13 @@ public abstract class PrintRecordSheet implements Printable, IdConstants {
     /**
      * @return true if the document was created successfully, otherwise false
      */
-    protected boolean createDocument(int pageIndex, PageFormat pageFormat, boolean addMargin) {
+    public boolean createDocument(int pageIndex, PageFormat pageFormat, boolean addMargin) {
         setSVGDocument(loadTemplate(pageIndex, pageFormat));
         if (getSVGDocument() == null) {
             return false;
         }
         subFonts((SVGDocument) getSVGDocument());
         subColorElements();
-        shadeTableRows();
         SVGGeneratorContext context = SVGGeneratorContext.createDefault(getSVGDocument());
         svgGenerator = new SVGGraphics2D(context, false);
         double ratio = Math.min(pageFormat.getImageableWidth() / (options.getPaperSize().pxWidth - 36),
@@ -335,6 +334,7 @@ public abstract class PrintRecordSheet implements Printable, IdConstants {
             }
         }
         processImage(pageIndex - firstPage, pageFormat);
+        shadeTableRows();
         return true;
     }
 
@@ -386,7 +386,7 @@ public abstract class PrintRecordSheet implements Printable, IdConstants {
         return new ByteArrayInputStream(output.toByteArray());
     }
     
-    protected GraphicsNode build() {
+    public GraphicsNode build() {
         GVTBuilder builder = new GVTBuilder();
         BridgeContext ctx = new BridgeContext(new UserAgentAdapter() {
             @Override
